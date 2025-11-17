@@ -84,5 +84,64 @@ namespace BlogApi.Controllers
             }
         }
 
+        [HttpDelete]
+        public ActionResult Delete(int id) 
+        {
+            try
+            {
+                using (var context = new BlogDbContext())
+                {
+                    var post = context.posts.FirstOrDefault(x => x.Id == id);
+
+                    if (post != null)
+                    {
+                        context.posts.Remove(post);
+                        context.SaveChanges();
+                        return Ok(new { message = "Sikeres törlés.", result = post });
+                    }
+
+                    return BadRequest(new { message = "Nincs ilyen bejegyzés.", result = post });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+           
+        }
+
+        [HttpPut]
+        public ActionResult UpdatePost(int id, UpdatePostDto updatePostDto)
+        {
+            try
+            {
+                using (var context = new BlogDbContext())
+                {
+                    var existingPost = context.posts.FirstOrDefault(x=>x.Id == id);
+
+                    if (existingPost != null)
+                    {
+                        existingPost.Category = updatePostDto.Category;
+                        existingPost.Post = updatePostDto.Posts;
+                        existingPost.ModTime = DateTime.Now;
+
+                        context.posts.Update(existingPost);
+                        context.SaveChanges();
+
+                        return Ok(new { message = "Sikeres frissítés.", result = existingPost });
+
+                    }
+                    return BadRequest(new { message = "Nincs ilyen bejegyzés.", result = existingPost });
+
+                }
+                    
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+        }
+
     }
 }
