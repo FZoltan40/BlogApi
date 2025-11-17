@@ -1,6 +1,7 @@
 ﻿using BlogApi.Models;
 using BlogApi.Models.DtoS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MySqlX.XDevAPI.Common;
 
 namespace BlogApi.Controllers
@@ -135,6 +136,52 @@ namespace BlogApi.Controllers
             catch (Exception ex)
             {
 
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+        }
+
+        //Összetett lekérdezések
+        //Összes blogger minden bejegyzésa
+
+        [HttpGet("withPosts")]
+        public ActionResult GetBloggerWithPosts()
+        {
+            try
+            {
+                using (var context = new BlogDbContext())
+                {
+                    var bloggerWihtPosts = context.bloggers.Include(x => x.Posts).ToList();
+                    return Ok(new { message = "Sikeres lekérdezés.", result = bloggerWihtPosts });
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+        }
+
+        //Adott blogger összes bejegyzése
+
+        [HttpGet("withOwnPosts")]
+        public ActionResult GetBloggerOwnPosts(int id)
+        {
+            try
+            {
+                using (var context = new BlogDbContext())
+                {
+                    var bloggerWihtOwnPosts = context.bloggers.Include(x=>x.Posts).FirstOrDefault(x => x.Id == id);
+
+                    if (bloggerWihtOwnPosts != null)
+                    {
+                        return Ok(new { message = "Sikeres lekérdezés.", result = bloggerWihtOwnPosts });
+                    }
+
+                    return NotFound(new { message = "Nincs ilyen bloggers.", result = bloggerWihtOwnPosts });
+                }
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(new { message = ex.Message, result = "" });
             }
         }
