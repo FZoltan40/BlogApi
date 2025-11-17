@@ -8,6 +8,7 @@ namespace BlogApi.Models
 
         public BlogDbContext(DbContextOptions options) : base(options) { }
         public DbSet<Blogger> bloggers { get; set; }
+        public DbSet<Posts> posts { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionbulder)
         {

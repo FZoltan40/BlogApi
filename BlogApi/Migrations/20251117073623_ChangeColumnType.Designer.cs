@@ -3,6 +3,7 @@ using System;
 using BlogApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlogApi.Migrations
 {
     [DbContext(typeof(BlogDbContext))]
-    partial class BlogDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251117073623_ChangeColumnType")]
+    partial class ChangeColumnType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +72,8 @@ namespace BlogApi.Migrations
 
                     b.Property<string>("Post")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("longtext")
+                        .HasColumnName("text");
 
                     b.Property<DateTime>("RegTime")
                         .HasColumnType("datetime(6)");

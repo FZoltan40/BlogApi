@@ -14,6 +14,8 @@ namespace BlogApi.Models
         public string? Phone { get; set; }
         public DateTime RegTime { get; set; } = DateTime.Now;
         public DateTime ModDate { get; set; } = DateTime.Now;
+        //Kapcsolatok miatt
+        public virtual ICollection<Posts> Posts { get; set; } = new List<Posts>();
 
     }
 }
