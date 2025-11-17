@@ -59,5 +59,30 @@ namespace BlogApi.Controllers
                 return BadRequest(new { message = ex.Message, result = "" });
             }
         }
+        
+        [HttpGet("byid")]
+        public ActionResult GetPostById(int id)
+        {
+            try
+            {
+                using (var context = new BlogDbContext())
+                {
+                    var post = context.posts.FirstOrDefault(x=>x.Id == id);
+
+                    if (post != null)
+                    {
+                        return Ok(new { message = "Sikeres lekérdezés", result = post });
+                    }
+
+                    return Ok(new { message = "Nincs ilyen bejegyzés.", result = post });
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+        }
+
     }
 }
