@@ -18,7 +18,8 @@ namespace BlogApi.Controllers
                 {
                     Name = blogger.Name,
                     Password = blogger.Password,
-                    Email = blogger.Email
+                    Email = blogger.Email,
+                    Phone   = blogger.Phone
                 };
 
                 using (var context = new BlogDbContext())
@@ -120,6 +121,8 @@ namespace BlogApi.Controllers
                         existingBlogger.Name = blogger.Name;
                         existingBlogger.Password = blogger.Password;
                         existingBlogger.Email = blogger.Email;
+                        existingBlogger.Phone = blogger.Phone;
+                        existingBlogger.ModDate = DateTime.Now;
 
                         context.bloggers.Update(existingBlogger);
                         context.SaveChanges();
