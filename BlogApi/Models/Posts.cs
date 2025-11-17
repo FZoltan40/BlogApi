@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace BlogApi.Models
 {
@@ -18,6 +19,7 @@ namespace BlogApi.Models
         public DateTime ModTime { get; set; } = DateTime.Now;
         public int BloggerId { get; set; }
         //Kapcsolatok miatt
+        [JsonIgnore]
         public virtual Blogger Blogger { get; set; }
     }
 }
