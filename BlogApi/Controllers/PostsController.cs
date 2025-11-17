@@ -42,5 +42,22 @@ namespace BlogApi.Controllers
             }
            
         }
+
+        [HttpGet]
+        public ActionResult GetAllPost()
+        {
+            try
+            {
+                using (var context = new BlogDbContext())
+                {
+                    return Ok(new { message = "Sikeres lekérdezés", result = context.posts.ToList()});
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new { message = ex.Message, result = "" });
+            }
+        }
     }
 }
